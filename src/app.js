@@ -1,3 +1,6 @@
+// Import User Agents
+import UserAgent from 'user-agents';
+
 // Ensure console.log spits out timestamps
 require("log-timestamp");
 
@@ -8,6 +11,9 @@ const port = 3000;
 
 // HTTP client
 const axios = require("axios").default;
+
+// User Agents
+const userAgent = new UserAgent();
 
 // Readability, dom and dom purify
 const { JSDOM } = require("jsdom");
@@ -41,7 +47,7 @@ app.post("/", bodyParser, (req, res) => {
   console.log("Fetching " + url + "...");
 
   axios
-    .get(url)
+    .get(url, { headers: { 'User-Agent': userAgent }  })
     .then((response) => {
       const sanitized = DOMPurify.sanitize(response.data, domPurifyOptions);
 
